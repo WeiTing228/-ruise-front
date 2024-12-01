@@ -1,0 +1,861 @@
+<!doctype html>
+<html class="no-js" lang="zxx">
+
+<head>
+    <!-- Bootstrap 引導程式 -->
+    <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
+    <!-- Fontawesome Icon 令人驚嘆的圖標-->
+    <link rel="stylesheet" href="./assets/css/fontawesome.min.css">
+    <!-- Magnific Popup 華麗的彈出窗口 -->
+    <link rel="stylesheet" href="./assets/css/magnific-popup.min.css">
+
+    <!-- Swiper css 滑動器-->
+    <link rel="stylesheet" href="./assets/css/swiper-bundle.min.css">
+
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="./css/chat_front.css">
+    <script src="https://unpkg.com/vue@3"></script>
+    <script src="https://unpkg.com/vue-router@4"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <style>
+        /* 控制元素在隐藏状态时保持布局 */
+        .hidden {
+            visibility: hidden;
+            opacity: 0;
+        }
+
+        .visible {
+            visibility: visible;
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <!--=====   Preloader  預先載入器 =============-->
+    <div id="preloader-container"></div>
+
+    <!--========  Sidemenu  =================== -->
+    <div id="sidemenu"></div>
+
+    <!--=======  Mobile Menu ================== -->
+    <div id="mobile-menu"></div>
+
+    <!--=======	Header Area ===============-->
+    <div id="header"></div>
+
+    <header class="th-header header-layout1">
+        <div class="header-top">
+            <div class="container th-container">
+                <div class="row justify-content-center justify-content-xl-between align-items-center">
+                    <div class="col-auto d-none d-md-block">
+                        <div class="header-links">
+                            <ul>
+                                <li class="d-none d-xl-inline-block"><i
+                                        class="fa-sharp fa-regular  fa-location-dot"></i>
+                                    <span>台北市中山區南京東路三段</span>
+                                </li>
+                                <li class="d-none d-xl-inline-block"><i class="fa-regular fa-clock"></i>
+                                    <span>星期一 到 五 早上 8.00 - 7.00 下午</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <div class="header-right">
+                            <div class="header-links">
+                                <ul>
+                                    <li id="memberHomePage" class="d-none d-md-inline-block"><a href="#">會員中心</a>
+                                    </li>
+
+                                    <a href="../index.html" id="logoutBtn">
+                                        登出
+                                        <i class="fa-regular fa-user"></i>
+                                    </a>
+
+                                    <li>
+                                        <a href="#login-form" id="login-popup" class="popup-content">登入/註冊<i
+                                                class="fa-regular fa-user"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sticky-wrapper">
+            <!-- Main Menu Area -->
+            <div class="menu-area">
+                <div class="container th-container">
+                    <div class="row align-items-center justify-content-between">
+                        <div class="col-auto">
+                            <div class="header-logo">
+                                <a href="../index.html"><img src="../assets/img/logo.svg" alt="Tourm"></a>
+                            </div>
+                        </div>
+                        <div class="col-auto me-xl-auto">
+                            <nav class="main-menu d-none d-xl-inline-block">
+                                <ul>
+                                    <li><a href="../index.html">首頁</a></li>
+                                    <li><a href="../destination.html">行程</a></li>
+                                    <li><a href="../shop.html">商城</a></li>
+                                    <li><a href="../faq.html">問與答</a></li>
+
+                                </ul>
+                            </nav>
+                            <button type="button" class="th-menu-toggle d-block d-xl-none"><i
+                                    class="far fa-bars"></i></button>
+                        </div>
+                        <div class="col-auto d-none d-xl-block">
+
+                            <div class="header-button">
+                                <a href="./destination.html" class="th-btn style3 th-icon">立刻預定</a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="logo-bg" data-mask-src="../assets/img/logo_bg_mask.png"></div>
+            </div>
+        </div>
+
+
+        <div id="login-form" class="popup-login-register mfp-hide">
+            <!-- 登入/註冊 大標籤 -->
+            <ul class="nav" id="pills-tab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-menu" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home"
+                        type="button" role="tab" aria-controls="pills-home" aria-selected="true">登入</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-menu active" id="pills-profile-tab" data-bs-toggle="pill"
+                        data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile"
+                        aria-selected="false">註冊</button>
+                </li>
+            </ul>
+
+            <!-- 登入/註冊 輸入框 -->
+            <div class="tab-content" id="pills-tabContent">
+                <!-- 登入表單 -->
+                <div class="tab-pane fade" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                    <div class="th-login-form">
+                        <form action="/MemberLogin" method="POST" class="login-form ajax-contact">
+                            <div class="row">
+                                <div class="form-group col-12">
+                                    <label>電子信箱</label>
+                                    <input type="email" class="form-control" name="login_email" id="login_email"
+                                        required="required">
+                                </div>
+                                <div class="form-group col-12">
+                                    <label>密碼</label>
+                                    <input type="password" class="form-control" name="login_password"
+                                        id="login_password" required="required">
+                                </div>
+                                <!-- <a href="/auth/google">使用 Google 登入</a> -->
+
+                                <div class="form-btn mb-20 col-12">
+                                    <button id="loginBtn" type="submit" class="th-btn btn-fw th-radius2">登入</button>
+                                </div>
+                            </div>
+                            <div id="forgot_url">
+                                <a href="my-account.html">忘記密碼</a>
+                            </div>
+                            <p class="form-messages mb-0 mt-3"></p>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade active show" id="pills-profile" role="tabpanel"
+                    aria-labelledby="pills-profile-tab">
+                    <form class="login-form ajax-contact" id="registerForm">
+                        <div class="row">
+                            <div class="form-group col-12">
+                                <label for="name">姓名*</label>
+                                <input type="text" class="form-control" name="register_name" id="register_name"
+                                    required="required">
+                            </div>
+                            <div class="form-group col-12">
+                                <label>電子信箱*</label>
+                                <input type="email" class="form-control" name="register_email" id="register_email"
+                                    required="required">
+                            </div>
+                            <div class="form-group col-12">
+                                <label for="password">密碼*</label>
+                                <input type="password" class="form-control" name="register_password"
+                                    id="register_password" required="required">
+                            </div>
+                            <div class="form-group col-12">
+                                <label for="password_confirm" style="color: red;">再次輸入密碼*</label>
+                                <input type="password" class="form-control" name="password_confirm"
+                                    id="password_confirm" required="required" style="border-color: red;">
+                                <!-- 修改 ID 屬性，原本為 password_comfirm -->
+                            </div>
+                            <div class="form-btn mt-20 col-12">
+                                <button id="registerBtn" type="button" class="th-btn btn-fw th-radius2">註冊</button>
+                            </div>
+                        </div>
+                        <p class="form-messages mb-0 mt-3"></p>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </header>
+
+
+    <!--======= Team  Area ===============-->
+    <div id="app">
+
+        <router-view></router-view>
+    </div>
+
+    <script type="module">
+        import { getProducts } from './js/shop.js';
+        import { getProduct } from './js/shop.js';
+        import { addTocart } from './js/shop.js';
+        import lodash from 'https://cdn.jsdelivr.net/npm/lodash-es@4.17.21/lodash.min.js'
+        import { updateCart } from './js/shop.js'
+        import { totalUpdate } from './js/shop.js'
+        import { insertOrder } from './js/shop.js'
+        window.accessControl = Vue.reactive({
+            canAccessCheckout: false
+        });
+        const prod_view = {
+            template: `
+            <div class="breadcumb-wrapper " style="background-image:url(assets/img/bg/breadcumb-bg.jpg)">
+                <div class="container">
+                    <div class="breadcumb-content">
+                        <h1 class="breadcumb-title">商店</h1>
+                        <ul class="breadcumb-menu">
+                            <li><a href="index.html">首頁</a></li>
+                            <li><a href="#/">商店首頁</a></li>
+                            <li><a href="#/cart">購物車</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div v-if="isProdEmpty" class="d-flex justify-content-center align-items-center space-top">
+                <blockquote><h2>目前暫無商品，稍後再回來</h2></blockquote>
+            </div>
+            <div v-else>
+                <section class="space-top space-extra-bottom">
+                    <div class="container">
+                        <div class="row gy-40">
+                            <div class="tab-content" id="nav-tabContent">
+                                <div class="tab-pane fade active show" id="tab-grid" role="tabpanel" aria-labelledby="tab-shop-grid">
+                                    <div class="row gy-40">
+                                        <div v-for="(item, index) in prod" :key="index" class="col-xl-3 col-sm-6">
+                                            <div class="th-product product-grid">
+                                                <div class="product-img">
+                                                    <div class="img"><img :src="item.img1" alt="Product Image" style="width: 400px; height: 200px;"></div>
+                                                    <div class="actions">
+                                                        <router-link :to="{ name: 'prod_detail', params: { id: item.id } }">
+                                                            <div class="icon-btn popup-content"><i class="far fa-eye"></i></div>
+                                                        </router-link>
+                                                        <div class="icon-btn" @click="addProd(item)"><i class="far fa-cart-plus"></i></div>
+                                                    </div>
+                                                </div>
+                                                <div class="product-content">
+                                                    <h3 class="product-title">
+                                                        <router-link :to="{ name: 'prod_detail', params: { id: item.id } }">{{ item.name }}</router-link>
+                                                    </h3>
+                                                    <span class="price">$ {{ item.price }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            `,
+            data() {
+                return {
+                    prod: [],
+                }
+            },
+            methods: {
+                addProd(item) {
+
+                    const prod = {
+                        id: item.id,
+                        name: item.name,
+                        price: item.price,
+                        qty: 1,
+                        imgs: [item.img1]
+                    }
+
+
+                    addTocart(prod, 1, "existIncrease");
+                },
+
+            },
+            computed: {
+                isProdEmpty() {
+                    // 返回条件，例如检查数组是否为空
+                    return this.prod.length === 0;
+                }
+            },
+            async mounted() {
+                try {
+                    this.prod = await getProducts();
+                    console.log(this.prod);
+
+                } catch (error) {
+                    console.log(error);
+                }
+            }
+        };
+
+        const prod_detail = {
+            template: `
+            <div class="breadcumb-wrapper " style="background-image:url(assets/img/bg/breadcumb-bg.jpg)">
+                <div class="container">
+                    <div class="breadcumb-content">
+                        <h1 class="breadcumb-title">商品</h1>
+                        <ul class="breadcumb-menu">
+                            <li><a href="index.html">首頁</a></li>
+                            <li><a href="#/">商店首頁</a></li>
+                              <li><a href="#/cart">購物車</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <section class="product-details space-top space-extra-bottom">
+                <div class="container">
+                    <div class="row gx-60">
+                        <div class="col-lg-6">
+                            <div class="product-big-img">
+                                <div class="img"><img :src="prod.imgs[0]" alt="Product Image"></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 align-self-center">
+                            <div class="product-about">
+                                <p class="price">$ {{prod.price}}</p>
+                                <h2 class="product-title">{{prod.name}}</h2>
+                                <div class="actions">
+                                    <div class="quantity">
+                                        
+                                        <input type="number" class="qty-input" :value="qty">
+                                        <button class="quantity-plus qty-btn" @click="qtyIncrease"><i class="far fa-chevron-up"></i></button>
+                                        <button class="quantity-minus qty-btn"@click="qtyDecrease" ><i class="far fa-chevron-down"></i></button>
+                                    </div>
+                                    <button class="th-btn" @click="updateCart">Add to Cart</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            `,
+            data() {
+                return {
+                    prod: {
+                        id: 0,
+                        name: "",
+                        price: 0,
+                        imgs: [],
+                    },
+                    qty: 1,
+
+                }
+            },
+            methods: {
+                qtyIncrease() {
+                    this.qty < 99 ? this.qty++ : this.qty--;
+                },
+                qtyDecrease() {
+                    this.qty > 1 ? this.qty-- : this.qty = 1;
+                },
+                updateCart() {
+                    addTocart(this.prod, this.qty, "Increase");
+                }
+            },
+            async mounted() {
+                let prod = await getProduct(this.$route.params.id);
+                this.prod.id = prod.id;
+                this.prod.name = prod.name;
+                this.prod.price = prod.price;
+                this.prod.imgs = [prod.img1, prod.img2, prod.img3];
+                const cart = JSON.parse(localStorage.getItem("cart"));
+                this.qty = cart.find(obj => obj.id === this.prod.id).qty;
+            },
+        }
+        const cart_view = {
+            template: `
+            <div class="breadcumb-wrapper " style="background-image:url(assets/img/bg/breadcumb-bg.jpg)">
+                <div class="container">
+                    <div class="breadcumb-content">
+                        <h1 class="breadcumb-title">購物車</h1>
+                        <ul class="breadcumb-menu">
+                            <li><a href="index.html">首頁</a></li>
+                            <li><a href="#/">商店首頁</a></li>
+                            <li><a href="#/cart">購物車</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="th-cart-wrapper" style="padding-top:40px">
+                <div class="container">
+                    <div class="woocommerce-notices-wrapper">
+                        <div class="woocommerce-message">購物車</div>
+                    </div>
+                    <form class="woocommerce-cart-form">
+                        <table class="cart_table">
+                            <thead>
+                                <tr>
+                                    <th class="cart-col-image">圖片</th>
+                                    <th class="cart-col-productname">商品名稱</th>
+                                    <th class="cart-col-price">單價</th>
+                                    <th class="cart-col-quantity">數量</th>
+                                    <th class="cart-col-total">價格</th>
+                                    <th class="cart-col-remove">移除</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="cart item" v-for="(item,index) in cart" :key="index">
+                                    <td data-title="Product">
+                                        <router-link :to="{ name: 'prod_detail', params: { id: item.id }}">
+                                            <img  :src="item.imgs" alt="Image" width="50" height="50">
+                                        </router-link>
+                                    </td>
+                                        <td data-title="Name">
+                                            <router-link :to="{ name: 'prod_detail', params: { id: item.id }}">
+                                            {{item.name}}
+                                            </router-link>
+                                        </td>
+                                    <td data-title="Price">
+                                        <span class="amount"><bdi><span>$</span>{{item.price}}</bdi></span>
+                                    </td>
+                                    <td data-title="Quantity">
+                                        <div class="quantity">
+                                            <button class="quantity-minus qty-btn" @click="qtyDecrease(item)"><i class="far fa-minus"></i></button>
+                                            <input type="number" class="qty-input" :value="item.qty">
+                                            <button class="quantity-plus qty-btn" @click="qtyIncrease(item)"><i class="far fa-plus"></i></button>
+                                        </div>
+                                    </td>
+                                    <td data-title="Total">
+                                        <span class="amount"><bdi><span>$</span>{{item.qty * item.price}}</bdi></span>
+                                    </td>
+                                    <td data-title="Remove">
+                                        <i class="remove fal fa-trash-alt" @click="removeProd(item)"></i>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="6" class="actions">
+                                        <router-link to="/">
+                                            <div class="th-btn">繼續購物</div>
+                                        </router-link>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </form>
+
+                    <div class="row justify-content-end">
+                        <div class="col-md-8 col-lg-7 col-xl-6">
+                            <h2 class="h4 summary-title">價格</h2>
+                            <table class="cart_totals">
+                                <tfoot>
+                                    <tr class="order-total">
+                                        <td>訂單總金額</td>
+                                        <td data-title="Total">
+                                            <strong><span class="amount"><bdi><span>$</span>{{total}}</bdi></span></strong>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                            
+                            <div class="wc-proceed-to-checkout mb-30">
+                                <router-link to="" @click="proceedToCheckout()">
+                                    <div class="th-btn">
+                                        結帳
+                                    </div>
+                                </router-link>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            `,
+            data() {
+                return {
+                    cart: [],
+                    total: 0
+                }
+            },
+            methods: {
+                qtyIncrease(item) {
+                    item.qty < 99 ? item.qty++ : item.qty--;
+                    this.total = totalUpdate(this.cart);
+                },
+                qtyDecrease(item) {
+                    item.qty > 1 ? item.qty-- : item.qty = 1;
+                    this.total = totalUpdate(this.cart);
+                },
+                removeProd(item) {
+                    updateCart(item, "remove");
+                    this.cart = JSON.parse(localStorage.getItem('cart'));
+                    this.total = totalUpdate(this.cart);
+                },
+                proceedToCheckout() {
+                    if (sessionStorage.getItem('id') == null) {
+                        const radio = document.getElementById('login-popup');
+                        if (radio) {
+                            radio.click();
+                            return;
+                        }
+                    }
+
+                    if (!lodash.isEmpty(localStorage.getItem('cart'))) {
+                        localStorage.setItem('cart', JSON.stringify(this.cart));
+                        window.accessControl.canAccessCheckout = true;
+                        this.$router.push("/checkout");
+                    } else {
+                        alert('購物車是空的，請先添加商品。');
+                    }
+                }
+            },
+            mounted() {
+                this.cart = JSON.parse(localStorage.getItem("cart"));
+                console.log(this.cart);
+                this.total = totalUpdate(this.cart);
+            },
+        };
+        const chekcout = {
+            template: `
+            <div class="breadcumb-wrapper " style="background-image:url(assets/img/bg/breadcumb-bg.jpg)">
+                <div class="container">
+                    <div class="breadcumb-content">
+                        <h1 class="breadcumb-title">結帳</h1>
+                        <ul class="breadcumb-menu">
+                            <li><a href="index.html">首頁</a></li>
+                            <li><a href="#/">商店首頁</a></li>
+                            <li><a href="#/cart">購物車</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="th-checkout-wrapper">
+                <div class="container">
+                    <div class="woocommerce-checkout mt-40">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <h2 class="h4">會員資料</h2>
+                                <div class="row">
+                                    <div class="col-md-6 form-group has-label">
+                                        <label>姓名</label>
+                                        <input type="text" class="form-control" v-model="memb.name" readonly>
+                                    </div>
+                                    
+                                    <div class="col-md-6 form-group has-label">
+                                        <label>住址</label>
+                                        <input type="text" class="form-control"  v-model="memb.shipaddr" readonly>
+                                    </div>
+                                    <div class="col-md-6 form-group has-label">
+                                        <label>信箱</label>
+                                        <input type="email" class="form-control" v-model="memb.email" readonly>
+                                    </div>
+                                    <div class="col-md-6 form-group has-label">
+                                        <label>電話</label>
+                                        <input type="text" class="form-control" v-model="memb.phone" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <h2 class="h4 d-inline-block">收件人資料</h2>
+                                <div class="form-check d-inline-block ml-3">
+                                    <input class="form-check-input" type="checkbox" id="customCheckbox" v-model="checked">
+                                    <label class="form-check-label" for="customCheckbox">同會員資料</label>
+                                </div>
+                                <div class="shipping_address">
+                                    <div class="row">
+                                        <div class="col-md-6 form-group has-label">
+                                            <label>姓名</label>
+                                            <input type="text" class="form-control" v-model="cust.name" placeholder="輸入姓名" >
+                                        </div>
+                                        <div class="col-md-6 form-group has-label">
+                                            <label>住址</label>
+                                            <input type="text" class="form-control" v-model="cust.shipaddr" placeholder="輸入收件地址">
+                                        </div>
+                                        <div class="col-md-6 form-group has-label">
+                                            <label>信箱</label>
+                                            <input type="email" class="form-control" v-model="cust.email" placeholder="輸入Email">
+                                        </div>
+                                        <div class="col-md-6 form-group has-label">
+                                            <label>電話</label>
+                                            <input type="text" class="form-control" v-model="cust.phone" placeholder="輸入電話">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h4 class="mt-4 pt-lg-2">訂單</h4>
+                    <form action="#" class="woocommerce-cart-form">
+                        <table class="cart_table mb-20">
+                            <thead>
+                                <tr>
+                                    <th class="cart-col-image">圖片</th>
+                                    <th class="cart-col-productname">商品名稱</th>
+                                    <th class="cart-col-price">單價</th>
+                                    <th class="cart-col-quantity">數量</th>
+                                    <th class="cart-col-total">價格</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="cart item" v-for="(item,index) in cart" :key="index">
+                                    <td data-title="Product">
+                                        <router-link :to="{ name: 'prod_detail', params: { id: item.id }}">
+                                            <img width="50" height="91" :src="item.imgs" alt="Image">
+                                        </router-link>
+                                    </td>
+                                    <td data-title="Name">
+                                        <router-link :to="{ name: 'prod_detail', params: { id: item.id }}">
+                                        {{item.name}}
+                                        </router-link>
+                                    </td>
+                                    <td data-title="Price">
+                                        <span class="amount"><bdi><span>$</span>{{item.price}}</bdi></span>
+                                    </td>
+                                    <td data-title="Quantity">
+                                        <strong class="product-quantity">{{item.qty}}</strong>
+                                    </td>
+                                    <td data-title="Total">
+                                        <span class="amount"><bdi><span>$</span>{{item.qty * item.price}}</bdi></span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot class="checkout-ordertable">
+                                <tr class="order-total">
+                                    <th>Total</th>
+                                    <td data-title="Total" colspan="4"><strong><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">$</span>{{total}}</bdi></span></strong>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </form>
+                    <div class="mt-lg-3 mb-30">
+                        <div class="woocommerce-checkout-payment">
+                            <ul class="wc_payment_methods payment_methods methods">
+                                <li class="wc_payment_method payment_method_cod">
+                                    <input id="payment_method_cod" type="radio" class="input-radio" v-model="paymentcheck">
+                                    <label for="payment_method_cod">Credit Cart</label>
+                                </li>
+                            </ul>
+                            <div class="form-row place-order">
+                                <button @click="order" class="th-btn">下訂</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            `,
+            data() {
+                return {
+                    memb: {
+                        id: "",
+                        name: "",
+                        shipaddr: "",
+                        email: "",
+                        phone: ""
+                    },
+                    cust: {
+                        name: "",
+                        shipaddr: "",
+                        email: "",
+                        phone: ""
+                    },
+                    payment: "credit",
+                    paymentcheck: false,
+                    cart: [],
+                    checked: false,
+                    total: 0
+                }
+            },
+            methods: {
+                custDataClear() {
+                    if (localStorage.getItem('cart') === null)
+                        if (sessionStorage.getItem('cart') === null)
+                            this.cust.name = "";
+                    this.cust.shipaddr = "";
+                    this.cust.email = "";
+                    this.cust.phone = "";
+                },
+                async order(event) {
+                    let resp;
+                    if (!this.checked) {
+                        const orderData = {
+                            membId: this.memb.id,
+                            status: "未付款",
+                            payment: this.payment,
+                            name: this.cust.name,
+                            email: this.cust.email,
+                            tell: this.cust.phone,
+                            addr: this.cust.shipaddr,
+                            amount: this.total,
+                        };
+
+                        resp = await insertOrder(orderData);
+                    }
+                    else {
+                        const orderData = {
+                            membId: this.memb.id,
+                            status: "未付款",
+                            payment: this.payment,
+                            name: this.memb.name,
+                            email: this.memb.email,
+                            tell: this.memb.phone,
+                            addr: this.memb.shipaddr,
+                            amount: this.total,
+                        };
+                        resp = await insertOrder(orderData);
+                    }
+                    if (resp == true) {
+                        window.accessControl.canAccessCheckout = true;
+                        localStorage.removeItem('cart');
+                        this.$router.push('/ordercomplete');
+                    }
+                }
+            },
+            async mounted() {
+                this.cart = JSON.parse(localStorage.getItem("cart"));
+                this.total = totalUpdate(this.cart);
+                window.accessControl.canAccessCheckout = false;
+
+                try {
+                    const respon = await fetch('http://localhost:8081/TIA103G3_Servlet/getOneMember', {
+                        method: 'post',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ id: sessionStorage.getItem('id') })
+                    })
+                    if (respon.status === 200) {
+                        const member = await respon.json();
+                        console.log(member);
+                        this.memb.id = member.id;
+                        this.memb.name = member.name;
+                        this.memb.shipaddr = member.address;
+                        this.memb.phone = member.tell;
+                        this.memb.email = member.email;
+                    }
+                } catch (error) {
+                    console.log(error);
+                }
+            },
+
+        }
+        const ordercomplete = {
+            template: `
+            <div class="breadcumb-wrapper " style="background-image:url(assets/img/bg/breadcumb-bg.jpg)">
+                <div class="container">
+                    <div class="breadcumb-content">
+                        <h1 class="breadcumb-title">Checkout</h1>
+                        <ul class="breadcumb-menu">
+                            <li><a href="index.html">首頁</a></li>
+                            <li><a href="#/">商店首頁</a></li>
+                            <li><a href="#/cart">購物車</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="space">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-6">
+                            <div class="th-account-form">
+                                <h2>訂購成功！</h2>
+                                <a href="index.html">
+                                    <button class="th-btn">返回首頁</button>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            `
+        }
+        const routes = [
+            { path: '/views', name: 'views', component: prod_view },
+            { path: '/detail/:id', name: 'prod_detail', component: prod_detail },
+            { path: '/cart', name: 'cart', component: cart_view },
+            { path: '/checkout', name: 'checkout', component: chekcout },
+            { path: '/ordercomplete', name: 'ordercomplete', component: ordercomplete },
+            { path: '/', redirect: '/views' }
+        ];
+
+
+        const router = VueRouter.createRouter({
+            history: VueRouter.createWebHashHistory(),
+            routes
+        })
+        router.beforeEach((to, from, next) => {
+            if (to.name === 'checkout' || to.name === 'ordercomplete') {
+                if (accessControl.canAccessCheckout) {
+                    next();
+                } else {
+                    alert('請從購物車頁面進行結帳。');
+                    next({ name: 'cart' });
+                }
+            } else {
+                next();
+            }
+        });
+
+        const app = Vue.createApp({})
+        app.use(router)
+        app.mount('#app')
+
+        if (sessionStorage.getItem('id') == null) {
+            console.log(123);
+            document.getElementById("login-popup").style.display = "visible";
+            document.getElementById("logoutBtn").style.display = "none";
+        } else {
+            document.getElementById("login-popup").style.display = "none";
+            document.getElementById("logoutBtn").style.display = "visible";
+        }
+
+    </script>
+
+    <!--===  elements Area  ======-->
+    <div class="elements-sec bg-white overflow-hidden">
+        <div class="container-fluid">
+            <div class="tags-container relative"></div>
+        </div>
+    </div>
+
+
+    <!--========= Footer Area 頁尾區 ===========-->
+    <div id="footer-wrapper"></div>
+
+
+    <script src="./assets/js/vendor/jquery-3.6.0.min.js"></script>
+    <script src="./js/chat_front.js"></script>
+    <script>
+        $('#preloader-container').load('./component/preloader.html', function () {
+            // 當預加載器加載完成後顯示內容
+            $('.space').show(); // 顯示隱藏的內容
+        });
+        $('#mobile-menu').load('./component/mobile_menu.html');
+
+        $('#header').load('./component/header.html');
+
+        $('#footer-wrapper').load('./component/footer.html');
+    </script>
+</body>
+
+</html>

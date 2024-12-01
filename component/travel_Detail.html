@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@3"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div v-html="route.dep"></div>
+    </div>
+    <script type="module">
+        const app = Vue.createApp({
+            data() {
+                return {
+                    route: {
+                        name: "",
+                        price: 0,
+                        days: 0,
+                        dep: ""
+                    }
+                }
+            },
+            async mounted() {
+                const urlParams = new URLSearchParams(window.location.search);
+                const id = urlParams.get('id');
+                try {
+
+                    const resp = await fetch(`http://localhost:8081/TIA103G3_Servlet/getrouteebypk?id=${id}`, {
+                        method: 'GET',
+                        mode: 'cors'
+                    })
+                    if (resp.status === 200) {
+
+                        const data = await resp.json()
+                        this.route.dep = data.depiction
+                    }
+                } catch (error) {
+                    console.log(error);
+
+                }
+            },
+        })
+        app.mount('#app');
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,384 @@
+<!doctype html>
+<html class="no-js" lang="zxx">
+
+<head>
+
+    <!--=========== All CSS File ========== -->
+    <!-- Bootstrap 引導程式 -->
+    <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
+    <!-- Fontawesome Icon 令人驚嘆的圖標-->
+    <link rel="stylesheet" href="./assets/css/fontawesome.min.css">
+    <!-- Magnific Popup 華麗的彈出窗口 -->
+    <link rel="stylesheet" href="./assets/css/magnific-popup.min.css">
+
+    <!-- Swiper css 滑動器-->
+    <link rel="stylesheet" href="./assets/css/swiper-bundle.min.css">
+
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="./css/chat_front.css">
+    <script src="https://unpkg.com/vue@3"></script>
+    <script src="https://unpkg.com/vue-router@4"></script>
+
+</head>
+
+<body>
+    <!--=====   Preloader  預先載入器 =============-->
+    <div id="preloader" class="preloader">
+        <button class="th-btn preloaderCls">Cancel Preloader</button>
+        <div class="preloader-inner">
+            <img src="/TIA103_Poject_Cruiseship_frontend/assets/img/logo3.svg" alt="">
+        </div>
+
+        <div id="loader" class="th-preloader">
+            <div class="animation-preloader">
+                <div class="txt-loading">
+                    <span preloader-text="T" class="characters">T </span>
+                    <span preloader-text="O" class="characters">O </span>
+                    <span preloader-text="U" class="characters">U </span>
+                    <span preloader-text="R" class="characters">R </span>
+                    <span preloader-text="M" class="characters">M </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const preloaderTimeout = 1000;
+        let preloaderTimer;
+
+        function hidePreloader() {
+            const preloader = document.getElementById('preloader');
+            preloader.style.display = 'none'; // 隱藏預加載器
+            window.scrollTo(0, 0); // 滾動到頁面頂端
+        }
+
+        window.onload = function () {
+            clearTimeout(preloaderTimer);
+            hidePreloader();
+        };
+
+        preloaderTimer = setTimeout(hidePreloader, preloaderTimeout);
+
+        document.querySelector('.preloaderCls').addEventListener('click', hidePreloader);
+    </script>
+
+    <!--=======  Mobile Menu ================== -->
+    <div id="mobile-menu"></div>
+
+    <!--=======	Header Area ===============-->
+    <div id="header"></div>
+
+    <div id="app">
+
+        <header class="th-header header-layout1">
+            <div class="header-top">
+                <div class="container th-container">
+                    <div class="row justify-content-center justify-content-xl-between align-items-center">
+                        <div class="col-auto d-none d-md-block">
+                            <div class="header-links">
+                                <ul>
+                                    <li class="d-none d-xl-inline-block"><i
+                                            class="fa-sharp fa-regular  fa-location-dot"></i>
+                                        <span>台北市中山區南京東路三段</span>
+                                    </li>
+                                    <li class="d-none d-xl-inline-block"><i class="fa-regular fa-clock"></i>
+                                        <span>星期一 到 五 早上 8.00 - 7.00 下午</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <div class="header-right">
+                                <div class="header-links">
+                                    <ul>
+                                        <li id="memberHomePage" class="d-none d-md-inline-block"><a href="#">會員中心</a>
+                                        </li>
+
+                                        <a href="../index.html" id="logoutBtn">
+                                            登出
+                                            <i class="fa-regular fa-user"></i>
+                                        </a>
+
+                                        <li>
+                                            <a href="#login-form" id="login-popup" class="popup-content">登入/註冊<i
+                                                    class="fa-regular fa-user"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sticky-wrapper">
+                <!-- Main Menu Area -->
+                <div class="menu-area">
+                    <div class="container th-container">
+                        <div class="row align-items-center justify-content-between">
+                            <div class="col-auto">
+                                <div class="header-logo">
+                                    <a href="../index.html"><img src="../assets/img/logo.svg" alt="Tourm"></a>
+                                </div>
+                            </div>
+                            <div class="col-auto me-xl-auto">
+                                <nav class="main-menu d-none d-xl-inline-block">
+                                    <ul>
+                                        <li><a href="../index.html">首頁</a></li>
+                                        <li><a href="../destination.html">行程</a></li>
+                                        <li><a href="../shop.html">商城</a></li>
+                                        <li><a href="../faq.html">問與答</a></li>
+
+                                    </ul>
+                                </nav>
+                                <button type="button" class="th-menu-toggle d-block d-xl-none"><i
+                                        class="far fa-bars"></i></button>
+                            </div>
+                            <div class="col-auto d-none d-xl-block">
+
+                                <div class="header-button">
+                                    <a href="./destination.html" class="th-btn style3 th-icon">立刻預定</a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="logo-bg" data-mask-src="../assets/img/logo_bg_mask.png"></div>
+                </div>
+            </div>
+
+
+            <div id="login-form" class="popup-login-register mfp-hide">
+                <!-- 登入/註冊 大標籤 -->
+                <ul class="nav" id="pills-tab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-menu" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home"
+                            type="button" role="tab" aria-controls="pills-home" aria-selected="true">登入</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-menu active" id="pills-profile-tab" data-bs-toggle="pill"
+                            data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile"
+                            aria-selected="false">註冊</button>
+                    </li>
+                </ul>
+
+                <!-- 登入/註冊 輸入框 -->
+                <div class="tab-content" id="pills-tabContent">
+                    <!-- 登入表單 -->
+                    <div class="tab-pane fade" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                        <div class="th-login-form">
+                            <form action="/MemberLogin" method="POST" class="login-form ajax-contact">
+                                <div class="row">
+                                    <div class="form-group col-12">
+                                        <label>電子信箱</label>
+                                        <input type="email" class="form-control" name="login_email" id="login_email"
+                                            required="required">
+                                    </div>
+                                    <div class="form-group col-12">
+                                        <label>密碼</label>
+                                        <input type="password" class="form-control" name="login_password"
+                                            id="login_password" required="required">
+                                    </div>
+                                    <!-- <a href="/auth/google">使用 Google 登入</a> -->
+
+                                    <div class="form-btn mb-20 col-12">
+                                        <button id="loginBtn" type="submit" class="th-btn btn-fw th-radius2">登入</button>
+                                    </div>
+                                </div>
+                                <div id="forgot_url">
+                                    <a href="my-account.html">忘記密碼</a>
+                                </div>
+                                <p class="form-messages mb-0 mt-3"></p>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade active show" id="pills-profile" role="tabpanel"
+                        aria-labelledby="pills-profile-tab">
+                        <form class="login-form ajax-contact" id="registerForm">
+                            <div class="row">
+                                <div class="form-group col-12">
+                                    <label for="name">姓名*</label>
+                                    <input type="text" class="form-control" name="register_name" id="register_name"
+                                        required="required">
+                                </div>
+                                <div class="form-group col-12">
+                                    <label>電子信箱*</label>
+                                    <input type="email" class="form-control" name="register_email" id="register_email"
+                                        required="required">
+                                </div>
+                                <div class="form-group col-12">
+                                    <label for="password">密碼*</label>
+                                    <input type="password" class="form-control" name="register_password"
+                                        id="register_password" required="required">
+                                </div>
+                                <div class="form-group col-12">
+                                    <label for="password_confirm" style="color: red;">再次輸入密碼*</label>
+                                    <input type="password" class="form-control" name="password_confirm"
+                                        id="password_confirm" required="required" style="border-color: red;">
+                                    <!-- 修改 ID 屬性，原本為 password_comfirm -->
+                                </div>
+                                <div class="form-btn mt-20 col-12">
+                                    <button id="registerBtn" type="button" class="th-btn btn-fw th-radius2">註冊</button>
+                                </div>
+                            </div>
+                            <p class="form-messages mb-0 mt-3"></p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </header>
+
+
+        <!-- 輪播圖 -->
+        <div class="th-hero-wrapper hero-1" id="hero">
+            <div class="swiper th-slider hero-slider-1" id="heroSlide1"
+                data-slider-options='{"effect":"fade","menu": ["", "", ""],"heroSlide1": {"swiper-container": {"pagination": {"el": ".swiper-pagination", "clickable": true }}}}'>
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide" v-for="(item ,index) in slideImgs" :key="index"
+                        data-swiper-autoplay="3000">
+                        <div class="hero-inner">
+                            <div class="th-hero-bg" :data-bg-src="item.bgSrc">
+                            </div>
+                            <div class="container">
+                                <div class="hero-style1">
+                                    <span class="sub-title style1" data-ani="slideinup"
+                                        data-ani-delay="0.2s">{{item.subTitle}}</span>
+                                    <h1 class="hero-title" data-ani="slideinup" data-ani-delay="0.4s">{{item.title}}
+                                    </h1>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="booking"></div>
+        <div class="booking-sec">
+
+
+            <div class="destination-area position-relative overflow-hidden ">
+                <div class="container">
+                    <div class="title-area text-center">
+                        <h2 class="sec-title">航線</h2>
+                    </div>
+
+                    <div class="swiper th-slider destination-slider" id="aboutSlider1" data-slider-options='{
+                    "effect": "cube",
+                    "cubeEffect": {
+                        "slideShadows": true,
+                        "shadow": true,
+                        "shadowOffset": 20,
+                        "shadowScale": 0.94
+                    }
+                }'>
+                        <div class="swiper-wrapper space-bottom">
+                            <div class="swiper-slide" v-for="(item,index) in slidePost" :key="index">
+                                <div class="destination-box gsap-cursor">
+                                    <div class="destination-img">
+                                        <img :src="item.postImg" alt="destination image" width="600" height="400">
+                                        <div class="destination-content">
+                                            <div class="media-left">
+                                                <h4 class="box-title">
+                                                    <a></a>
+                                                </h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    slideImgs: [
+                        {
+                            bgSrc: "https://images.pexels.com/photos/69122/ferry-boat-ferry-ship-boat-69122.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+                            subTitle: "Get unforgettable pleasure with us",
+                            title: "Natural Wonder of the world"
+                        },
+                        {
+                            bgSrc: "assets/img/hero/hero_bg_1_2.jpg",
+                            subTitle: "Get unforgettable pleasure with us",
+                            title: "Let’s make your best trip with us"
+                        },
+                        {
+                            bgSrc: "assets/img/hero/hero_bg_1_3.jpg",
+                            subTitle: "Get unforgettable pleasure with us",
+                            title: "Explore beauty of the whole world"
+                        }
+                    ],
+                    slidePost: [
+                        { postImg: "https://images.pexels.com/photos/14036626/pexels-photo-14036626.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2", title: "Maldives" },
+                        { postImg: "https://images.pexels.com/photos/38238/maldives-ile-beach-sun-38238.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2", title: "Thailand" },
+                        { postImg: "https://images.pexels.com/photos/1450360/pexels-photo-1450360.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2", title: "Belgium" },
+                        { postImg: "https://image.cache.storm.mg/styles/smg-855x445-fp/s3/media/image/2024/10/17/20241017-053724_U25889_M997237_15d5.jpg?0qO6XB0oq1aoUCoLSVBJcx524wwau9vA&itok=9k1e-D2P", title: "Island" },
+                        // { postImg: "assets/img/destination/destination_1_5.jpg", title: "Maldives" },
+                        // { postImg: "assets/img/destination/destination_1_1.jpg", title: "Maldives" },
+                        // { postImg: "assets/img/destination/destination_1_2.jpg", title: "Thailand" },
+                        // { postImg: "assets/img/destination/destination_1_3.jpg", title: "Belgium" },
+                        // { postImg: "assets/img/destination/destination_1_4.jpg", title: "Island" },
+                        // { postImg: "assets/img/destination/destination_1_5.jpg", title: "Maldives" }
+                    ],
+                    days: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 14,]
+                }
+            },
+        });
+        app.mount('#app');
+        if (sessionStorage.getItem('id') == null) {
+            console.log(123);
+            document.getElementById("login-popup").style.display = "visible";
+            document.getElementById("logoutBtn").style.display = "none";
+        } else {
+            document.getElementById("login-popup").style.display = "none";
+            document.getElementById("logoutBtn").style.display = "visible";
+        }
+
+    </script>
+
+    <!--===  elements Area  ======-->
+    <div class="elements-sec bg-white overflow-hidden">
+        <div class="container-fluid">
+            <div class="tags-container relative"></div>
+        </div>
+    </div>
+
+
+    <!--========= Footer Area 頁尾區 ===========-->
+    <div id="footer-wrapper"></div>
+
+
+
+    <!-- script 標籤 -->
+
+    <script src="./assets/js/vendor/jquery-3.6.0.min.js"></script>
+    <script src="./js/chat_front.js"></script>
+    <script>
+        $('#preloader-container').load('./component/preloader.html', function () {
+            // 當預加載器加載完成後顯示內容
+            $('.space').show(); // 顯示隱藏的內容
+        });
+        $('#mobile-menu').load('./component/mobile_menu.html');
+
+        $('#header').load('./component/header.html');
+
+        $('#footer-wrapper').load('./component/footer.html');
+    </script>
+
+</body>
+
+</html>
